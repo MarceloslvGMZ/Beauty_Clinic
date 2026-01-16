@@ -1,6 +1,6 @@
 package com.clinica.api.repository;
 
-import com.clinica.api.model.Profissional;
+import com.clinica.api.model.profissional.Profissional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

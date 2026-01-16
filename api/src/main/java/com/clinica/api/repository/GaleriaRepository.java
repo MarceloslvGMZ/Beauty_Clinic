@@ -1,6 +1,6 @@
 package com.clinica.api.repository;
 
-import com.clinica.api.model.GaleriaServico;
+import com.clinica.api.model.galeria.GaleriaServico;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
