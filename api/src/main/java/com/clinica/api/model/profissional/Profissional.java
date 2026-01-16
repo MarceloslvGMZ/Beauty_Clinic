@@ -1,4 +1,4 @@
-package com.clinica.api.model;
+package com.clinica.api.model.profissional;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,16 +11,15 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Table(name = "cliente")
+@Table(name = "profissional")
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cliente {
+public class Profissional {
     @Id
     @GeneratedValue
     private UUID id;
     private String nome;
-    private String telefone;
 }

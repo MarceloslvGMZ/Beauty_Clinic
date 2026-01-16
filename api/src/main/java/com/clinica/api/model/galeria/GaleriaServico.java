@@ -1,5 +1,6 @@
-package com.clinica.api.model;
+package com.clinica.api.model.galeria;
 
+import com.clinica.api.model.servico.Servico;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.clinica.api.model;
+package com.clinica.api.model.servico;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

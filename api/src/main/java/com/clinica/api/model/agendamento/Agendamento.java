@@ -1,5 +1,8 @@
-package com.clinica.api.model;
+package com.clinica.api.model.agendamento;
 
+import com.clinica.api.model.cliente.Cliente;
+import com.clinica.api.model.profissional.Profissional;
+import com.clinica.api.model.servico.Servico;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
