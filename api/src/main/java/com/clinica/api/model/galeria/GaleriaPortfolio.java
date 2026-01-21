@@ -17,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class GaleriaPortfolio {
     @Id
-    @Column(name = "id")
+    @GeneratedValue
     private UUID id;
     private String imgUrl;
     @ManyToOne
