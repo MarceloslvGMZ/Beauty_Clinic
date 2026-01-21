@@ -3,6 +3,8 @@ package com.clinica.api.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.clinica.api.model.galeria.GaleriaRequestDTO;
 import com.clinica.api.model.galeria.GaleriaPortfolio;
+import com.clinica.api.model.servico.Servico;
+import com.clinica.api.repository.ServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,14 +26,20 @@ public class GaleriaService{
     @Autowired
     private AmazonS3 s3Client;
 
-    public GaleriaPortfolio criarPortfolio(GaleriaRequestDTO data){
-        String imgUrl = null;
+    @Autowired
+    private ServicoRepository servicoRepository;
 
+    public GaleriaPortfolio criarPortfolio(GaleriaRequestDTO data){
+        Servico servico = servicoRepository.findById(data.servicoId())
+                .orElseThrow(()-> new RuntimeException("Servico nao encontrado"));
+
+        String imgUrl = null;
         if(data.image() != null){
             imgUrl = this.uploadImg(data.image());
         }
+
         GaleriaPortfolio portfolio = new GaleriaPortfolio();
-        portfolio.setServico(data.servico());
+        portfolio.setServico(servico);
         portfolio.setImgUrl(imgUrl);
 
         return portfolio;
