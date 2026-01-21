@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GaleriaServico {
+public class GaleriaPortfolio {
     @Id
     @Column(name = "id")
     private UUID id;
