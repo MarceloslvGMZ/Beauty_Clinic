@@ -19,6 +19,7 @@ public class GaleriaPortfolio {
     @Id
     @GeneratedValue
     private UUID id;
+    @Column(name = "imgurl", nullable = false)
     private String imgUrl;
     @ManyToOne
     @JoinColumn(name = "servico_id")
