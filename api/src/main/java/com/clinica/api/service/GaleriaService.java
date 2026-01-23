@@ -3,7 +3,9 @@ package com.clinica.api.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.clinica.api.model.galeria.GaleriaRequestDTO;
 import com.clinica.api.model.galeria.GaleriaPortfolio;
+import com.clinica.api.model.galeria.GaleriaResponseDTO;
 import com.clinica.api.model.servico.Servico;
+import com.clinica.api.repository.GaleriaRepository;
 import com.clinica.api.repository.ServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,9 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -29,6 +31,9 @@ public class GaleriaService{
     @Autowired
     private ServicoRepository servicoRepository;
 
+    @Autowired
+    private GaleriaRepository galeriaRepository;
+
     public GaleriaPortfolio criarPortfolio(GaleriaRequestDTO data){
         Servico servico = servicoRepository.findById(data.servicoId())
                 .orElseThrow(()-> new RuntimeException("Servico nao encontrado"));
@@ -41,6 +46,8 @@ public class GaleriaService{
         GaleriaPortfolio portfolio = new GaleriaPortfolio();
         portfolio.setServico(servico);
         portfolio.setImgUrl(imgUrl);
+
+        galeriaRepository.save(portfolio);
 
         return portfolio;
     }
@@ -66,6 +73,14 @@ public class GaleriaService{
         fos.write(multipartFile.getBytes());
         fos.close();
         return convFile;
+    }
+
+    public List<GaleriaResponseDTO> listarPortfolioPorServico(UUID servicoId){
+        List<GaleriaPortfolio> list = galeriaRepository.findByServicoId(servicoId);
+
+        return list.stream()
+                .map(GaleriaResponseDTO::new)
+                .toList();
     }
 
 }
