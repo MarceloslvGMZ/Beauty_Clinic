@@ -5,22 +5,24 @@ import com.clinica.api.model.profissional.Profissional;
 import com.clinica.api.model.profissional.ProfissionalRequestDTO;
 import com.clinica.api.model.profissional.ProfissionalResponseDTO;
 import com.clinica.api.repository.ProfissionalRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProfissionalService {
 
-    @Autowired
-    private ProfissionalRepository repository;
+    private final ProfissionalRepository repository;
 
-    public Profissional criarProfissional(ProfissionalRequestDTO data){
+    public ProfissionalResponseDTO criarProfissional(ProfissionalRequestDTO data){
         Profissional newProfissional = new Profissional();
         newProfissional.setNome(data.nome());
 
-        return repository.save(newProfissional);
+        Profissional profissionalSalvo = repository.save(newProfissional);
+
+        return new ProfissionalResponseDTO(profissionalSalvo);
     }
 
     public List<ProfissionalResponseDTO> findAll(){
