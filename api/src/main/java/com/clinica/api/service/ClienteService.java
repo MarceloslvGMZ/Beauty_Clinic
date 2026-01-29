@@ -4,25 +4,27 @@ import com.clinica.api.model.cliente.Cliente;
 import com.clinica.api.model.cliente.ClienteRequestDTO;
 import com.clinica.api.model.cliente.ClienteResponseDTO;
 import com.clinica.api.repository.ClienteRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteService {
 
-    @Autowired
-    private ClienteRepository repository;
 
-    public Cliente criarCliente(ClienteRequestDTO data) {
+    private final ClienteRepository repository;
+
+    public ClienteResponseDTO criarCliente(ClienteRequestDTO data) {
         Cliente newCliente = new Cliente();
         newCliente.setNome(data.nome());
         newCliente.setTelefone(data.telefone());
 
-        repository.save(newCliente);
+        Cliente clienteSalvo = repository.save(newCliente);
 
-        return newCliente;
+        return new ClienteResponseDTO(clienteSalvo);
     }
 
     public List<ClienteResponseDTO> findAll(){
