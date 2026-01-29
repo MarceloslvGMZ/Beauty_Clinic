@@ -1,10 +1,7 @@
 package com.clinica.api.model.agendamento;
 
-import com.clinica.api.model.cliente.Cliente;
-import com.clinica.api.model.profissional.Profissional;
-import com.clinica.api.model.servico.Servico;
-
+import java.util.List;
 import java.util.UUID;
 
-public record AgendamentoRequestDTO(String status, Long date, UUID servicoId, UUID clienteId, UUID profissionalId) {
+public record AgendamentoRequestDTO(String status, Long date, List<UUID> servicoIds, UUID clienteId, UUID profissionalId) {
 }
