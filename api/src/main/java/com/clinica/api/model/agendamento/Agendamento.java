@@ -9,7 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Table(name = "agendamento")
@@ -25,9 +27,14 @@ public class Agendamento {
     private String status;
     private Date date;
 
-    @ManyToOne
+    @ManyToMany
+    @JoinTable(
+            name = "agendamento_servicos",
+            joinColumns = @JoinColumn(name = "agendamento_id"),
+            inverseJoinColumns = @JoinColumn(name = "servico_id")
+    )
     @JoinColumn(name = "servico_id")
-    private Servico servico;
+    private List<Servico> servicos = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
