@@ -7,10 +7,12 @@ import com.clinica.api.model.galeria.GaleriaResponseDTO;
 import com.clinica.api.model.servico.Servico;
 import com.clinica.api.repository.GaleriaRepository;
 import com.clinica.api.repository.ServicoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,23 +22,23 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class GaleriaService{
 
     @Value("${aws.bucket.name}")
     private String bucketName;
 
-    @Autowired
-    private AmazonS3 s3Client;
 
-    @Autowired
-    private ServicoRepository servicoRepository;
+    private final AmazonS3 s3Client;
 
-    @Autowired
-    private GaleriaRepository galeriaRepository;
 
-    public GaleriaPortfolio criarPortfolio(GaleriaRequestDTO data){
+    private final ServicoRepository servicoRepository;
+
+    private final GaleriaRepository galeriaRepository;
+
+    public GaleriaResponseDTO criarPortfolio(GaleriaRequestDTO data){
         Servico servico = servicoRepository.findById(data.servicoId())
-                .orElseThrow(()-> new RuntimeException("Servico nao encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Servico não encontrado."));
 
         String imgUrl = null;
         if(data.image() != null){
@@ -47,9 +49,9 @@ public class GaleriaService{
         portfolio.setServico(servico);
         portfolio.setImgUrl(imgUrl);
 
-        galeriaRepository.save(portfolio);
+        GaleriaPortfolio newPortfolio= galeriaRepository.save(portfolio);
 
-        return portfolio;
+        return new GaleriaResponseDTO(newPortfolio);
     }
 
     private String uploadImg(MultipartFile multipartFile) {
